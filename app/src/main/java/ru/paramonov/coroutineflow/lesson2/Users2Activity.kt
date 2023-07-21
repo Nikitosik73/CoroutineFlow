@@ -23,8 +23,8 @@ class Users2Activity : AppCompatActivity() {
             binding.editTextUsername.text.toString()
                 .trim()
                 .takeIf { it.isNotBlank() }
-                ?.let {
-                    viewModel.addUser(it)
+                ?.let { user ->
+                    viewModel.addUser(user)
                 }
         }
         viewModel.users.observe(this) {
