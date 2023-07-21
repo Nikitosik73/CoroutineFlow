@@ -1,4 +1,4 @@
-package ru.paramonov.coroutineflow
+package ru.paramonov.coroutineflow.lesson1
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
