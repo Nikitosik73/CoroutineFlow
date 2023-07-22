@@ -4,4 +4,6 @@
     <string name="enter_username">Enter username</string>
     <string name="add_user">Add user</string>
     <string name="launch_next_screen">Launch next screen</string>
+    <string name="price_coin">%s $</string>
+    <string name="crypto_activity">Crypto Activity</string>
 </resources>
