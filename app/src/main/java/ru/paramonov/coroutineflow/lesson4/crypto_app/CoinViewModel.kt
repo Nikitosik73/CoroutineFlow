@@ -1,40 +1,23 @@
 package ru.paramonov.coroutineflow.lesson4.crypto_app
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 
 class CoinViewModel : ViewModel() {
 
     private val repository = CoinRepository
 
-    private val _state = MutableLiveData<State>(State.Initial)
-    val state: LiveData<State> = _state
-
-    init {
-        loadData()
-    }
-
-    private fun loadData() {
-        viewModelScope.launch {
-            repository.getCoinList()
-                .onStart {
-                    val currentState = _state.value
-                    if (currentState !is State.Content || currentState.listCoin.isEmpty()) {
-                        _state.value = State.Loading
-                    }
-                }
-                .filter { it.isNotEmpty() }
-                .onEach { list ->
-                    _state.value = State.Content(listCoin = list)
-                }.collect()
-        }
-    }
+    val state: LiveData<State> = repository.getCoinList()
+        // фильтруем коллекцию, чтобы она была не пустая
+        .filter { it.isNotEmpty() }
+        // преобразовываем Flow<List<Coin>>
+        .map { State.Content(listCoin = it) as State }
+        // во время подписки на flow имитим state loading
+        .onStart { emit(State.Loading) }
+        // превращаем Flow<State> в LiveData<State>
+        .asLiveData()
 }
