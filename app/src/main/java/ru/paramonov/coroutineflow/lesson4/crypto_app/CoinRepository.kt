@@ -11,6 +11,7 @@ object CoinRepository {
     private val coinList = mutableListOf<Coin>()
 
     fun getCoinList(): Flow<List<Coin>> = flow {
+        emit(coinList.toList())
         while (true) {
             delay(3000)
             generateCoinList()
