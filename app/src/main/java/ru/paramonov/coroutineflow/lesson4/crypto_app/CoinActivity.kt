@@ -39,18 +39,16 @@ class CoinActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         binding.recyclerViewCoin.adapter = coinAdapter
         binding.recyclerViewCoin.itemAnimator = null
+
+        binding.btnUpdateData.setOnClickListener {
+            viewModel.updateList()
+        }
     }
 
     private fun observerViewModel() {
         lifecycleScope.launch {
-            viewModel.state
-                .transform {
-                    Log.d("CoinViewModel", "Transform")
-                    delay(10_000)
-                    emit(it)
-                }
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect { viewState ->
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect { viewState ->
                     when(viewState) {
                         is State.Initial -> {
                             binding.progressCircular.isVisible = false
@@ -64,6 +62,7 @@ class CoinActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
         }
     }
 

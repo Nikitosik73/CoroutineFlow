@@ -6,4 +6,5 @@
     <string name="launch_next_screen">Launch next screen</string>
     <string name="price_coin">%s $</string>
     <string name="crypto_activity">Crypto Activity</string>
+    <string name="update_data">Update</string>
 </resources>
