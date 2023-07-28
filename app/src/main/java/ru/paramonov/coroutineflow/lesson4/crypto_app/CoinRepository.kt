@@ -2,6 +2,9 @@ package ru.paramonov.coroutineflow.lesson4.crypto_app
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 
@@ -10,14 +13,21 @@ object CoinRepository {
     private val coinNames = listOf("BTC", "ETH", "USDT", "BNB", "USDC")
     private val coinList = mutableListOf<Coin>()
 
+    private val updateEvents = MutableSharedFlow<Unit>()
+
     fun getCoinList(): Flow<List<Coin>> = flow {
+        delay(3000)
+        generateCoinList()
         emit(coinList.toList())
-        while (true) {
+        updateEvents.collect {
             delay(3000)
             generateCoinList()
             emit(coinList.toList())
-            delay(3000)
         }
+    }
+
+    suspend fun updateList() {
+        updateEvents.emit(Unit)
     }
 
     private fun generateCoinList() {
