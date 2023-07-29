@@ -52,12 +52,15 @@ class CoinActivity : AppCompatActivity() {
                     when(viewState) {
                         is State.Initial -> {
                             binding.progressCircular.isVisible = false
+                            binding.btnUpdateData.isEnabled = false
                         }
                         is State.Loading -> {
                             binding.progressCircular.isVisible = true
+                            binding.btnUpdateData.isEnabled = false
                         }
                         is State.Content -> {
                             binding.progressCircular.isVisible = false
+                            binding.btnUpdateData.isEnabled = true
                             coinAdapter.submitList(viewState.listCoin)
                         }
                     }
