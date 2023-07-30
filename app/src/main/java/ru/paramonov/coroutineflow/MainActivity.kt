@@ -3,6 +3,7 @@ package ru.paramonov.coroutineflow
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.paramonov.coroutineflow.databinding.ActivityMainBinding
+import ru.paramonov.coroutineflow.lesson12.team_app.TeamScoreActivity
 import ru.paramonov.coroutineflow.lesson2.UsersActivity
 import ru.paramonov.coroutineflow.lesson4.crypto_app.CoinActivity
 
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonCryptoActivity.setOnClickListener {
             startActivity(CoinActivity.newIntent(this))
+        }
+        binding.buttonTeamScoreActivity.setOnClickListener {
+            startActivity(TeamScoreActivity.newIntent(this))
         }
     }
 }
