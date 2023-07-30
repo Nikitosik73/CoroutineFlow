@@ -30,21 +30,25 @@ class TeamScoreActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.state.observe(this) { viewState ->
-            when (viewState) {
-                is TeamScoreState.Game -> {
-                    binding.team1Score.text = viewState.score1.toString()
-                    binding.team2Score.text = viewState.score2.toString()
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collect { viewState ->
+                    when (viewState) {
+                        is TeamScoreState.Game -> {
+                            binding.team1Score.text = viewState.score1.toString()
+                            binding.team2Score.text = viewState.score2.toString()
+                        }
 
-                is TeamScoreState.Winner -> {
-                    binding.team1Score.text = viewState.score1.toString()
-                    binding.team2Score.text = viewState.score2.toString()
-                    Toast.makeText(
-                        this,
-                        "Winner: ${viewState.winnerTeam}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        is TeamScoreState.Winner -> {
+                            binding.team1Score.text = viewState.score1.toString()
+                            binding.team2Score.text = viewState.score2.toString()
+                            Toast.makeText(
+                                this@TeamScoreActivity,
+                                "Winner: ${viewState.winnerTeam}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
