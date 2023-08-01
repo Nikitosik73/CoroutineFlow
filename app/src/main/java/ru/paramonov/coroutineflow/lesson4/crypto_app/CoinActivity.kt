@@ -67,6 +67,18 @@ class CoinActivity : AppCompatActivity() {
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state2.collect { viewState ->
+                    when(viewState) {
+                        is State.Content -> {
+                            Log.d("CoinActivity", viewState.listCoin.joinToString())
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
     }
 
     companion object {
