@@ -1,4 +1,4 @@
-package ru.paramonov.coroutineflow
+package ru.paramonov.coroutineflow.lesson14
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
